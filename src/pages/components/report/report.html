@@ -1,0 +1,196 @@
+<div class="min-h-screen  p-4">
+
+  <!-- ================= CONTRACTOR LIST ================= -->
+  <div *ngIf="!showReport"
+       class="mx-auto bg-gray-100  rounded-lg border border-black ">
+
+    <div class="p-6">
+      <h1 class="text-2xl font-bold uppercase mb-6">
+        Contractor List
+      </h1>
+
+      <div class="overflow-x-auto">
+        <table class="w-full bg-white border border-black text-sm">
+          <thead>
+            <tr class="border-b-2 bg-white border-black ">
+              <th class="px-3 py-2 text-left">ID</th>
+              <th class="px-3 py-2 text-left">Name</th>
+              <th class="px-3 py-2 text-left">Department</th>
+              <th class="px-3 py-2 text-left">Designation</th>
+              <th class="px-3 py-2 text-right">Salary</th>
+              <th class="px-3 py-2 text-center">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let contractor of contractors"
+                class="border-b border-black">
+              <td class="px-3 py-2">{{ contractor.id }}</td>
+              <td class="px-3 py-2">{{ contractor.name }}</td>
+              <td class="px-3 py-2">{{ contractor.department }}</td>
+              <td class="px-3 py-2">{{ contractor.designation }}</td>
+              <td class="px-3 py-2 text-right">
+                ₹{{ contractor.salary | number }}
+              </td>
+              <td class="px-3 py-2 text-center">
+                <button
+                  (click)="viewReport(contractor)"
+                  class="border border-black px-3 py-1 text-xs hover:bg-gray-100">
+                  <i class="bi bi-file-earmark-text"></i> Report
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= REPORT / INVOICE ================= -->
+  <div *ngIf="showReport"
+       class="mx-auto bg-white border border-black max-w-[210mm] min-h-[297mm]">
+
+    <!-- ACTION BAR -->
+    <div class="p-4 border-b border-black print:hidden flex justify-between">
+      <button (click)="showReport=false"
+              class="border border-black px-4 py-1 text-sm">
+        ← Back
+      </button>
+
+      <button (click)="printReport()"
+              class="border border-black px-4 py-1 text-sm">
+        Print
+      </button>
+    </div>
+
+    <!-- HEADER -->
+    <div class="p-6 border-b-2 border-black">
+      <div class="flex justify-between">
+        <div>
+          <h1 class="text-2xl font-bold uppercase">
+            Payroll Solutions Inc.
+          </h1>
+          <p class="text-sm">123 Business Street, City</p>
+          <p class="text-sm">Phone: 1234567890</p>
+        </div>
+
+        <div class="text-right">
+          <h2 class="text-xl font-bold uppercase">Salary Invoice</h2>
+          <p class="text-sm">
+            Invoice No: <b>INV-{{ selectedEmployee.id }}</b>
+          </p>
+          <p class="text-sm">
+            Month: <b>{{ selectedMonth }}</b>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPLOYEE DETAILS -->
+    <div class="grid grid-cols-2 gap-6 p-6 border-b border-black text-sm">
+      <div>
+        <p><b>Employee Name:</b> {{ selectedEmployee.name }}</p>
+        <p><b>Employee ID:</b> {{ selectedEmployee.id }}</p>
+        <p><b>Department:</b> {{ selectedEmployee.department }}</p>
+        <p><b>Designation:</b> {{ selectedEmployee.designation }}</p>
+      </div>
+
+      <div>
+        <p><b>Basic Salary:</b> ₹{{ selectedEmployee.salary | number }}</p>
+        <p><b>Total Allowance:</b> ₹{{ totalAllowance | number }}</p>
+        <p><b>Total Advance:</b> ₹{{ totalAdvance | number }}</p>
+      </div>
+    </div>
+
+    <!-- SALARY TABLE -->
+    <div class="p-6">
+      <table class="w-full border border-black text-sm">
+        <thead>
+          <tr class="border-b border-black bg-gray-100">
+            <th class="px-3 py-2 text-left">Description</th>
+            <th class="px-3 py-2 text-right">Amount (₹)</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- EARNINGS -->
+          <tr class="bg-gray-100">
+            <td colspan="2" class="px-3 py-2 font-bold">
+              EARNINGS
+            </td>
+          </tr>
+
+          <tr class="border-b border-black">
+            <td class="px-3 py-2">Basic Salary</td>
+            <td class="px-3 py-2 text-right">
+              ₹{{ selectedEmployee.salary | number }}
+            </td>
+          </tr>
+
+          <tr *ngFor="let allowance of allowanceData"
+              class="border-b border-black">
+            <td class="px-3 py-2">{{ allowance.type }}</td>
+            <td class="px-3 py-2 text-right">
+              ₹{{ allowance.amount | number }}
+            </td>
+          </tr>
+
+          <tr class="border-t-2 border-black font-bold">
+            <td class="px-3 py-2">Total Earnings</td>
+            <td class="px-3 py-2 text-right">
+              ₹{{ (selectedEmployee.salary + totalAllowance) | number }}
+            </td>
+          </tr>
+
+          <!-- DEDUCTIONS -->
+          <tr class="bg-gray-100">
+            <td colspan="2" class="px-3 py-2 font-bold">
+              DEDUCTIONS
+            </td>
+          </tr>
+
+          <tr *ngFor="let advance of advanceData"
+              class="border-b border-black">
+            <td class="px-3 py-2">{{ advance.reason }}</td>
+            <td class="px-3 py-2 text-right">
+              - ₹{{ advance.amount | number }}
+            </td>
+          </tr>
+
+          <tr class="border-t-2 border-black font-bold">
+            <td class="px-3 py-2">Total Deductions</td>
+            <td class="px-3 py-2 text-right">
+              - ₹{{ totalAdvance | number }}
+            </td>
+          </tr>
+
+          <!-- NET -->
+          <tr class="border-t-4 border-black font-bold text-lg">
+            <td class="px-3 py-3">Net Salary</td>
+            <td class="px-3 py-3 text-right">
+              ₹{{ netSalary | number }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="p-6 border-t border-black text-xs">
+      <div class="flex justify-between">
+        <div>
+          <p>This is a computer-generated invoice.</p>
+          <p>No signature required.</p>
+          <p>Generated on {{ currentDate | date:'mediumDate' }}</p>
+        </div>
+
+        <div class="text-right">
+          <p class="border-t border-black pt-2 mt-6">
+            Authorized Signatory
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

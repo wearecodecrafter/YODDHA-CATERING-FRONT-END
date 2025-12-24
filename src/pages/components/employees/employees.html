@@ -1,0 +1,258 @@
+<div class="min-h-screen p-4 flex justify-center items-start ">
+  <div class="w-full bg-gray-100 border border-black  rounded-lg">
+    <!-- Header -->
+
+    <div class="border-b px-6 py-4">
+      <h2 class="text-xl font-semibold text-gray-800">  Employee Registration</h2>
+    </div>
+    <div
+      class="border-b px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0"
+    >
+
+      <button
+        (click)="toggleForm()"
+        class="px-4 py-2 text-sm rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition w-full md:w-auto"
+      >
+        {{ showForm ? "Cancel" : "Add Employee" }}
+      </button>
+    </div>
+
+    <!-- Form -->
+    <form
+      *ngIf="showForm"
+      (ngSubmit)="submitEmployee()"
+      class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5 overflow-y-auto"
+    >
+      <!-- Employee Name -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Employee Name
+        </label>
+        <input
+          type="text"
+          placeholder="Enter full name"
+          [(ngModel)]="employeeName"
+          name="employeeName"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm text-gray-800 focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        />
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          placeholder="example@mail.com"
+          [(ngModel)]="email"
+          name="email"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        />
+      </div>
+
+      <!-- Mobile -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Mobile Number
+        </label>
+        <input
+          type="tel"
+          placeholder="10 digit mobile"
+          [(ngModel)]="mobile"
+          name="mobile"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        />
+      </div>
+
+      <!-- Department -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Department
+        </label>
+        <select
+          [(ngModel)]="department"
+          name="department"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        >
+          <option>Select Department</option>
+          <option>HR</option>
+          <option>Finance</option>
+          <option>IT</option>
+          <option>Operations</option>
+        </select>
+      </div>
+
+      <!-- Designation -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Designation
+        </label>
+        <input
+          type="text"
+          placeholder="Job title"
+          [(ngModel)]="designation"
+          name="designation"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        />
+      </div>
+
+      <!-- Joining Date -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Joining Date
+        </label>
+        <input
+          type="date"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        />
+      </div>
+
+      <!-- Salary -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Salary
+        </label>
+        <input
+          type="number"
+          placeholder="Monthly salary"
+          [(ngModel)]="salary"
+          name="salary"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        />
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Status
+        </label>
+        <select
+          [(ngModel)]="status"
+          name="status"
+          class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+        >
+          <option>Active</option>
+          <option>Inactive</option>
+        </select>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="md:col-span-2 flex justify-end gap-3 mt-6">
+        <button
+          type="button"
+          (click)="resetForm()"
+          class="px-5 bg-red-500 text-white py-2.5 text-sm rounded-xl border border-gray-300 text-gray-600 hover:bg-black transition"
+        >
+          Reset
+        </button>
+
+        <button
+          type="submit"
+          class="px-6 py-2.5 text-sm rounded-xl bg-green-500 text-white hover:bg-gray-900 shadow-md transition"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+
+    <!-- Employee Table -->
+    <div class="p-4 md:p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Employee List</h3>
+      <div class="overflow-x-auto">
+        <table
+          class="w-full table-auto border-collapse border border-gray-300 min-w-[800px]"
+        >
+          <thead>
+            <tr class="bg-gray-200">
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Name
+              </th>
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Email
+              </th>
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Mobile
+              </th>
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Department
+              </th>
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Designation
+              </th>
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Joining Date
+              </th>
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Salary
+              </th>
+              <th
+                class="border border-gray-300 px-2 md:px-4 py-2 text-left text-xs md:text-sm"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of employees" class="hover:bg-gray-100">
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.name }}
+              </td>
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.email }}
+              </td>
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.mobile }}
+              </td>
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.department }}
+              </td>
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.designation }}
+              </td>
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.joiningDate }}
+              </td>
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.salary }}
+              </td>
+              <td
+                class="border border-gray-300 px-2 md:px-4 py-2 text-xs md:text-sm"
+              >
+                {{ employee.status }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

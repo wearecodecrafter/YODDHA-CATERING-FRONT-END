@@ -1,0 +1,322 @@
+<header
+  class="sticky top-0 z-40 bg-black backdrop-blur border-b border-white/10"
+>
+  <div class="px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-16">
+
+      <!-- Mobile Menu Button (LEFT on mobile) -->
+      <button
+  (click)="toggleMobileMenu()"
+  class="lg:hidden p-2 rounded-lg text-white hover:bg-white/10 transition"
+>
+  <i class="bi bi-list text-2xl"></i>
+</button>
+
+
+      <!-- Title -->
+      <h1
+        class="ml-auto md:ml-0 text-lg font-semibold text-white tracking-tight"
+      >
+        Payroll
+      </h1>
+
+      <!-- Right Actions (Desktop only) -->
+      <div class="hidden md:flex ml-auto items-center gap-3">
+        <button
+          class="flex items-center p-2 rounded-lg text-red-500 hover:text-white hover:bg-white/10 transition"
+          title="Logout"
+          (click)="logOut()"
+        >
+          <i class="bi bi-box-arrow-right text-xl"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<div *ngIf="isMobileMenuOpen" class="fixed inset-0 z-50 lg:hidden">
+  <!-- Overlay -->
+  <div (click)="closeMobileMenu()" class="fixed inset-0 bg-black/70"></div>
+
+  <!-- Sidebar -->
+  <div
+    class="fixed inset-y-0 left-0 w-64 bg-black border-r border-white/10 shadow-2xl transform transition-transform duration-300"
+  >
+    <!-- Sidebar Header -->
+    <div
+      class="flex items-center justify-between h-16 px-4 border-b border-white/10"
+    >
+      <h2 class="text-sm font-semibold text-white tracking-wide">Navigation</h2>
+      <button
+        (click)="closeMobileMenu()"
+        class="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="px-3 py-4">
+      <ul class="space-y-1">
+        <li>
+          <a
+            routerLink="/dashboard/home"
+            (click)="closeMobileMenu()"
+            routerLinkActive="bg-white/10 border-l-4 border-white"
+            class="flex items-center px-3 py-2.5 text-sm rounded-lg text-white hover:bg-white/10 transition-all"
+          >
+            <i class="bi bi-speedometer2 mr-3"></i>
+            Dashboard
+          </a>
+        </li>
+        <!-- Employee Master (Parent) -->
+        <li>
+          <button
+            (click)="toggleEmployeeMaster()"
+            class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/10 transition"
+          >
+            <div class="flex items-center">
+              <i class="bi bi-people mr-3"></i>
+              Employee Master
+            </div>
+
+            <!-- Arrow -->
+            <i
+              class="bi bi-chevron-down transition-transform duration-200"
+              [class.rotate-180]="isEmployeeMasterOpen"
+            ></i>
+          </button>
+
+          <!-- Sub Menu -->
+          <ul
+            *ngIf="isEmployeeMasterOpen"
+            class="ml-6 mt-1 space-y-1 border-l border-white/10 pl-3"
+          >
+            <li>
+              <a
+                routerLink="/dashboard/employees"
+                (click)="closeMobileMenu()"
+                routerLinkActive="bg-white/10 border-l-4 border-white"
+                class="block px-3 py-2 text-sm rounded-md text-white/70 hover:text-white hover:bg-white/10 transition"
+              >
+                Add Employee
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/dashboard/attendance"
+                routerLinkActive="bg-white/10 border-l-4 border-white"
+                (click)="closeMobileMenu()"
+                class="block px-3 py-2 text-sm rounded-md text-white/70 hover:text-white hover:bg-white/10 transition"
+              >
+                Attendance
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/dashboard/advance"
+                (click)="closeMobileMenu()"
+                routerLinkActive="bg-white/10 border-l-4 border-white"
+                class="block px-3 py-2 text-sm rounded-md text-white/70 hover:text-white hover:bg-white/10 transition"
+              >
+                Advance
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/dashboard/allowance"
+                (click)="closeMobileMenu()"
+                routerLinkActive="bg-white/10 border-l-4 border-white"
+                class="block px-3 py-2 text-sm rounded-md text-white/70 hover:text-white hover:bg-white/10 transition"
+              >
+                Allowance
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/dashboard/report"
+                (click)="closeMobileMenu()"
+                routerLinkActive="bg-white/10 border-l-4 border-white"
+                class="block px-3 py-2 text-sm rounded-md text-white/70 hover:text-white hover:bg-white/10 transition"
+              >
+                Report
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Divider -->
+        <li class="my-2 border-t border-white/10"></li>
+
+        <!-- Settings (Parent) -->
+        <li>
+          <button
+            (click)="toggleSettings()"
+            class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/10 transition"
+          >
+            <div class="flex items-center">
+              <i class="bi bi-gear mr-3"></i>
+              Settings
+            </div>
+
+            <!-- Arrow -->
+            <i
+              class="bi bi-chevron-down transition-transform duration-200"
+              [class.rotate-180]="isSettingsOpen"
+            ></i>
+          </button>
+
+          <!-- Sub Menu -->
+          <ul
+            *ngIf="isSettingsOpen"
+            class="ml-6 mt-1 space-y-2 border-l border-white/10 pl-3"
+          >
+            <li
+              class="flex items-center justify-between px-3 py-2 rounded-md hover:bg-white/10 transition"
+            >
+              <span class="text-sm text-white/70">Enable 2FA</span>
+
+              <!-- Toggle -->
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  class="sr-only peer"
+                  [checked]="is2FAEnabled"
+                  (change)="toggle2FA()"
+                />
+                <div
+                  class="w-10 h-5 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:h-4 after:w-4 after:rounded-full after:transition-all peer-checked:after:translate-x-5"
+                ></div>
+              </label>
+            </li>
+
+            <!-- QR Code Display -->
+            <li *ngIf="qrCodeData" class="px-3 py-2">
+              <button
+                (click)="showQRModal = true"
+                class="text-sm text-blue-400 hover:text-blue-300 transition"
+              >
+                View QR Code
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Logout -->
+        <li>
+          <a
+            (click)="logOut()"
+            class="flex items-center px-3 py-2.5 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/10 transition"
+          >
+            <i class="bi bi-box-arrow-right mr-3"></i>
+            Log Out
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- QR CODE MODAL -->
+  <div
+    *ngIf="showQRModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+  >
+    <div class="bg-white rounded-lg p-4 w-80 relative">
+
+      <!-- Close -->
+      <button
+        class="absolute top-2 right-3 text-xl text-gray-500 hover:text-black"
+        (click)="showQRModal = false"
+      >
+        &times;
+      </button>
+
+      <!-- Title -->
+      <h3 class="text-base font-semibold text-center mb-3">
+        Scan QR Code
+      </h3>
+
+      <!-- QR Image -->
+      <img
+        *ngIf="qrCodeData"
+        [src]="qrCodeData"
+        class="mx-auto w-48 h-48 border p-1"
+        alt="2FA QR Code"
+      />
+
+      <!-- Instruction -->
+      <p class="text-xs text-gray-600 text-center mt-2">
+        Scan using Google Authenticator or Authy
+      </p>
+
+      <!-- OTP Input (SMALL SIZE) -->
+      <input
+        type="text"
+        maxlength="6"
+        placeholder="Enter 6-digit OTP"
+        [(ngModel)]="otpValue"
+        class="mt-3 w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-black"
+      />
+
+      <!-- Verify Button -->
+      <button
+        (click)="verifyOTP()"
+        class="mt-3 w-full bg-black text-white text-sm py-1.5 rounded hover:bg-gray-800 transition"
+      >
+        Verify
+      </button>
+
+    </div>
+  </div>
+
+  <!-- DISABLE 2FA MODAL -->
+  <div
+    *ngIf="showDisableModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+  >
+    <div class="bg-white rounded-lg p-4 w-80 relative">
+
+      <!-- Close -->
+      <button
+        class="absolute top-2 right-3 text-xl text-gray-500 hover:text-black"
+        (click)="showDisableModal = false"
+      >
+        &times;
+      </button>
+
+      <!-- Title -->
+      <h3 class="text-base font-semibold text-center mb-3">
+        Disable 2FA
+      </h3>
+
+      <!-- Instruction -->
+      <p class="text-xs text-gray-600 text-center mb-3">
+        Enter your OTP to disable 2FA
+      </p>
+
+      <!-- OTP Input -->
+      <input
+        type="text"
+        maxlength="6"
+        placeholder="Enter 6-digit OTP"
+        [(ngModel)]="disableOtpValue"
+        class="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-black"
+      />
+
+      <!-- Disable Button -->
+      <button
+        (click)="disable2FA()"
+        class="mt-3 w-full bg-red-500 text-white text-sm py-1.5 rounded hover:bg-red-600 transition"
+      >
+        Disable 2FA
+      </button>
+
+    </div>
+  </div>
+
+</div>

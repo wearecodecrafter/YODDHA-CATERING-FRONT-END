@@ -1,0 +1,157 @@
+<div class="min-h-screen p-4 flex justify-center items-start">
+  <div class="w-full  bg-gray-100 border border-black rounded-lg">
+
+    <!-- Header -->
+    <div class="border-b px-6 py-4">
+      <h2 class="text-xl font-semibold text-gray-800">
+        Advance Salary Records
+      </h2>
+    </div>
+
+    <!-- Search Bar and Toggle Button -->
+    <div class="px-6 py-4 border-b flex flex-col md:flex-row gap-4 md:items-center">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search advances by employee name or reason..."
+        class="flex-1 rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+      />
+      <button
+        (click)="toggleForm()"
+        class="px-4 py-2.5 text-sm rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition"
+      >
+        {{ showForm ? 'Cancel' : 'Add New Advance' }}
+      </button>
+    </div>
+
+    <!-- New Advance Form -->
+    <div *ngIf="showForm" class="px-6 py-4 border-b bg-gray-50">
+      <form (ngSubmit)="submitAdvanceRequest()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Employee Selection -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Select Employee
+          </label>
+          <select
+            [(ngModel)]="selectedEmployeeId"
+            name="employee"
+            class="w-full rounded-xl bg-white border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+          >
+            <option value="0">Select Employee</option>
+            <option *ngFor="let employee of employees" [value]="employee.id">
+              {{ employee.name }} ({{ employee.department }})
+            </option>
+          </select>
+        </div>
+
+        <!-- Amount -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Amount (₹)
+          </label>
+          <input
+            type="number"
+            [(ngModel)]="requestAmount"
+            name="amount"
+            placeholder="Enter amount"
+            class="w-full rounded-xl bg-white border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+          />
+        </div>
+
+        <!-- Date -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Advance Date
+          </label>
+          <input
+            type="date"
+            [(ngModel)]="requestDate"
+            name="date"
+            class="w-full rounded-xl bg-white border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+          />
+        </div>
+
+        <!-- Reason -->
+        <div class="md:col-span-2">
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Reason for Advance
+          </label>
+          <textarea
+            [(ngModel)]="requestReason"
+            name="reason"
+            placeholder="Enter reason for advance..."
+            rows="3"
+            class="w-full rounded-xl bg-white border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+          ></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="md:col-span-2 flex justify-end">
+          <button
+            type="submit"
+            class="px-6 py-2.5 text-sm rounded-xl bg-green-500 text-white hover:bg-green-600 shadow-md transition"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Advances Table -->
+    <div class="p-6">
+      <div class="overflow-x-auto">
+<table
+          class="w-full table-auto border-collapse border border-gray-300 min-w-[800px]"
+        >          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0">
+                Employee Name
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0">
+                Amount
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0">
+                Reason
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0">
+                Date
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr
+              *ngFor="let request of filteredRequests"
+              class="hover:bg-gray-50 transition-colors"
+            >
+              <td class="px-4 py-4">
+                <div class="text-sm font-medium text-gray-900 break-words">
+                  {{ request.employeeName }}
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <div class="text-sm text-gray-900 font-semibold">
+                  ₹{{ request.amount | number }}
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <div class="text-sm text-gray-600 break-words max-w-xs" title="{{ request.reason }}">
+                  {{ request.reason }}
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <div class="text-sm text-gray-900">
+                  {{ request.advanceDate }}
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredRequests.length === 0" class="text-center">
+              <td colspan="4" class="px-4 py-8 text-sm text-gray-500">
+                No advance records found.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

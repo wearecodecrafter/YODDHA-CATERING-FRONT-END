@@ -1,0 +1,141 @@
+<div class="min-h-screen p-4 flex justify-center items-start">
+  <div class="w-full bg-gray-100 border border-black rounded-lg">
+    <!-- Header -->
+    <div class="border-b px-6 py-4">
+      <h2 class="text-xl font-semibold text-gray-800">Attendance Marking</h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="px-6 py-4 border-b">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search employees by name, email, department, or designation..."
+        class="w-full rounded-xl bg-gray-50 border border-gray-300 px-3 py-2.5 text-sm focus:bg-white focus:border-black focus:ring-1 focus:ring-black transition"
+      />
+    </div>
+
+    <!-- Mark All Buttons -->
+    <div class="px-6 py-4 border-b flex flex-col sm:flex-row gap-3">
+      <button
+        (click)="markAllPresent()"
+        class="px-6 py-2.5 text-sm rounded-xl bg-green-500 text-white hover:bg-green-600 shadow-md transition"
+      >
+        Mark All Present
+      </button>
+      <button
+        (click)="markAllAbsent()"
+        class="px-6 py-2.5 text-sm rounded-xl bg-red-500 text-white hover:bg-red-600 shadow-md transition"
+      >
+        Mark All Absent
+      </button>
+    </div>
+
+    <!-- Employee Attendance Table -->
+    <div class="p-6">
+      <div class="overflow-x-auto">
+        <table
+          class="w-full table-auto border-collapse border border-gray-300 min-w-[800px]"
+        >
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0"
+              >
+                Employee Name
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0"
+              >
+                Email
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0"
+              >
+                Department
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0"
+              >
+                Designation
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0"
+              >
+                Status
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b min-w-0"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr
+              *ngFor="let employee of filteredEmployees"
+              class="hover:bg-gray-50 transition-colors"
+            >
+              <td class="px-4 py-4">
+                <div class="text-sm font-medium text-gray-900 break-words">
+                  {{ employee.name }}
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <div class="text-sm text-gray-600 break-words">
+                  {{ employee.email }}
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <div class="text-sm text-gray-900">
+                  {{ employee.department }}
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <div class="text-sm text-gray-900">
+                  {{ employee.designation }}
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <span
+                  class="text-sm font-medium"
+                  [ngClass]="{
+                    'status-present':
+                      getAttendanceStatus(employee.id) === 'present',
+                    'status-absent':
+                      getAttendanceStatus(employee.id) === 'absent',
+                    'status-not-marked':
+                      getAttendanceStatus(employee.id) === 'not marked'
+                  }"
+                >
+                  {{ getAttendanceStatus(employee.id) | titlecase }}
+                </span>
+              </td>
+              <td class="px-4 py-4">
+                <div class="flex gap-2">
+                  <button
+                    (click)="markPresent(employee.id)"
+                    class="px-3 py-1 text-xs rounded bg-green-500 text-white hover:bg-green-600 transition"
+                  >
+                    Present
+                  </button>
+                  <button
+                    (click)="markAbsent(employee.id)"
+                    class="px-3 py-1 text-xs rounded bg-red-500 text-white hover:bg-red-600 transition"
+                  >
+                    Absent
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredEmployees.length === 0" class="text-center">
+              <td colspan="6" class="px-4 py-8 text-sm text-gray-500">
+                No employees found.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

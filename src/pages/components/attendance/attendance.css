@@ -1,0 +1,22 @@
+/* Attendance page styles */
+.employee-row {
+  transition: background-color 0.2s;
+}
+
+.employee-row:hover {
+  background-color: #f9f9f9;
+}
+
+.status-present {
+  color: green;
+  font-weight: bold;
+}
+
+.status-absent {
+  color: red;
+  font-weight: bold;
+}
+
+.status-not-marked {
+  color: gray;
+}

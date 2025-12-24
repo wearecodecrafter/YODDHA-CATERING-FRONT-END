@@ -1,0 +1,27 @@
+{
+  "name": "Payroll Management System",
+  "short_name": "Payroll",
+  "description": "A comprehensive payroll management application",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "theme_color": "#007bff",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity"],
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "payroll.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "payroll.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

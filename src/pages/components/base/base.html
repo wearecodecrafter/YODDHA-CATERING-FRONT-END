@@ -1,0 +1,19 @@
+<div class="h-screen bg-gray-50 flex flex-col overflow-hidden">
+  <!-- Header -->
+  <app-header></app-header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <app-sidebar
+      class="hidden lg:block lg:static z-40"
+    ></app-sidebar>
+
+    <!-- Main Content (ONLY this scrolls) -->
+    <main class="flex-1 overflow-y-auto ">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>
